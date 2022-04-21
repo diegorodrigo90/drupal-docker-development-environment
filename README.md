@@ -6,8 +6,6 @@ This is an easy Drupal development environment created based on [Drupal Oficial 
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- [PHP](https://www.php.net/)
-- [Composer](https://getcomposer.org/)
 
 ## Before run
 
@@ -84,16 +82,6 @@ Host files can be found in:
 Windows: `C:\Windows\System32\Drivers\etc\hosts`
 Linux: `/etc/hosts`
 
-### Install composer dependencies
-
-Install the composer dependencies:
-
-```bash
-composer install
-```
-
-Answer `y` for any question.
-
 ### Running containers
 
 Now that we have all things set up all we have to do is run the containers:
@@ -110,23 +98,36 @@ Database, Mailhog, Portainer and Traefik:
 docker-compose -f "docker-compose.override.yml" up -d
 ```
 
-### Create translations folder
+### Inside Drupal Docker
 
-**If you will use an language different from english** create translations folder in `web/sites/default/files/translations`
-
-```bash
-mkdir web/sites/default/files/translations
-```
+The following commands must be run from within the Drupal container, to access the container run:
 
 ```bash
-chmod 777 web/sites/default/files/translations
+docker-compose exec drupal bash
 ```
 
-### Installing Drupal
+
+#### Install composer dependencies
+
+Install the composer dependencies:
+
+```bash
+composer install
+```
+
+Answer `y` for any question if asked.
+
+#### Change permissions
+
+```bash
+chown -R www-data:www-data web
+```
+
+#### Installing Drupal
 
 Go to https://drupal.mysite.localhost/ and follow the steps to install Drupal, database default options are:
 
-**MYSQL Server:** mariadb.mysite.localhost
+**MYSQL Server:** db
 **MYSQL port:** 3306
 **MYSQL root password**: MyGreatPassword
 **MYSQL database:** drupal
