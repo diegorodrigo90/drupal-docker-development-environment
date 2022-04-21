@@ -1,0 +1,48 @@
+version: '3'
+services:
+  db:
+    #    image: wodby/mariadb:10.2-3.0.2
+    image: wodby/mariadb:10.3
+    environment:
+      MYSQL_ROOT_PASSWORD: MyGreatPassword
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+    volumes:
+      - database:/var/lib/mysql
+    labels:
+      - 'traefik.backend=mariadb'
+      - 'traefik.port=3306'
+      - 'traefik.frontend.rule=Host:mariadb.mysite.localhost'
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    labels:
+      - 'traefik.backend=mailhog'
+      - 'traefik.port=8025'
+      - 'traefik.frontend.rule=Host:mailhog.mysite.localhost'
+
+  portainer:
+    image: portainer/portainer
+    command: --no-auth -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - 'traefik.backend=portainer'
+      - 'traefik.port=9000'
+      - 'traefik.frontend.rule=Host:portainer.mysite.localhost'
+
+  traefik:
+    image: traefik:v1.7.16
+    command: -c /dev/null --web --docker --logLevel=INFO --defaultEntryPoints='https' --entryPoints="Name:https Address::443 TLS:/certs/server.cert,/certs/server.key" --entryPoints="Name:http Address::80 Redirect.EntryPoint:https"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./certs:/certs/
+
+volumes:
+    database:
