@@ -72,7 +72,9 @@ Add the following hosts to yout hosts file:
 ```
 
 Host files can be found in:
+
 Windows: `C:\Windows\System32\Drivers\etc\hosts`
+
 Linux: `/etc/hosts`
 
 ### Running containers
@@ -121,10 +123,15 @@ chown -R www-data:www-data web
 Go to https://drupal.mysite.localhost/ and follow the steps to install Drupal, database default options are:
 
 **MYSQL Server:** db
+
 **MYSQL port:** 3306
+
 **MYSQL root password**: MyGreatPassword
+
 **MYSQL database:** drupal
+
 **MYSQL user:** drupal
+
 **MYSQL password:** drupal
 
 
