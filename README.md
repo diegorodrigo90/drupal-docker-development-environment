@@ -45,13 +45,6 @@ cd ..
 
 ```bash
 mkdir solr-cloud
-cd solr-cloud
-wget https://raw.githubusercontent.com/drud/ddev-contrib/master/docker-compose-services/solr/solr/security.json
-cd ..
-```
-
-```bash
-mkdir solr-cloud
 ```
 
 ```bash
